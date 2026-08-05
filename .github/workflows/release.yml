@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install build tools
+        shell: pwsh
+        run: |
+          choco install nsis -y --no-progress
+          go install github.com/wailsapp/wails/v2/cmd/wails@v2.13.0
+          npm ci
+
+      - name: Test
+        shell: pwsh
+        run: |
+          npm run desktop:check
+          go test ./...
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          .\scripts\build-lite.ps1 `
+            -Version $version `
+            -UpdateSource "https://github.com/porridgeowefish/KMLens/releases/latest/download/latest.json"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            release-lite/KMLens-Setup-*.exe
+            release-lite/latest.json

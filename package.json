@@ -1,0 +1,92 @@
+{
+  "name": "kmlens",
+  "productName": "KMLens",
+  "version": "0.3.0",
+  "description": "在本地打开、解析和查看 KML 与 GPX 地理文件。",
+  "author": "porridgeowefish",
+  "private": true,
+  "main": "electron/main.cjs",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --config vite.desktop.config.ts",
+    "build": "npm run desktop:build",
+    "desktop:check": "tsc -p tsconfig.desktop.json --noEmit",
+    "desktop:build": "npm run desktop:check && vite build --config vite.desktop.config.ts",
+    "desktop:start": "npm run desktop:build && electron .",
+    "desktop:dist": "npm run desktop:build && electron-builder --win nsis",
+    "desktop:lite": "wails build -clean -trimpath",
+    "desktop:lite:installer": "wails build -clean -trimpath -nsis -installscope user -webview2 download",
+    "test": "npm run desktop:check"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "lucide-react": "^1.27.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/leaflet": "^1.9.21",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.3",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3",
+    "vite": "^8.2.0"
+  },
+  "type": "module",
+  "build": {
+    "appId": "io.github.porridgeowefish.kmlens",
+    "electronDist": "node_modules/electron/dist",
+    "productName": "KMLens",
+    "artifactName": "KMLens-Setup-${version}.${ext}",
+    "directories": {
+      "output": "release",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "desktop-dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build-resources/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "KMLens"
+    },
+    "fileAssociations": [
+      {
+        "ext": "kml",
+        "name": "KML 地理文件",
+        "description": "使用 KMLens 打开 KML 地理文件",
+        "role": "Viewer"
+      },
+      {
+        "ext": "gpx",
+        "name": "GPX 轨迹文件",
+        "description": "使用 KMLens 打开 GPX 轨迹文件",
+        "role": "Viewer"
+      }
+    ]
+  }
+}

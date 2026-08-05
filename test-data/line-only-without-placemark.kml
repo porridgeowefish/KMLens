@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>无点位线路</name>
+    <Folder>
+      <name>巡检线路</name>
+      <LineString>
+        <coordinates>
+          116.350, 40.010, 70;
+          116.360, 40.015, 75;
+          116.370, 40.020, 82
+        </coordinates>
+      </LineString>
+    </Folder>
+  </Document>
+</kml>

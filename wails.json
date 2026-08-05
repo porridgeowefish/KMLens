@@ -1,0 +1,37 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "kmlens",
+  "outputfilename": "KMLens",
+  "frontend:dir": ".",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run desktop:build",
+  "wailsjsdir": "src",
+  "build:dir": "wails-build",
+  "author": {
+    "name": "porridgeowefish",
+    "email": ""
+  },
+  "info": {
+    "companyName": "porridgeowefish",
+    "productName": "KMLens",
+    "productVersion": "0.3.0",
+    "copyright": "Copyright © 2026 porridgeowefish",
+    "comments": "本地 KML / GPX 地理文件检视器",
+    "fileAssociations": [
+      {
+        "ext": "kml",
+        "name": "KML 地理文件",
+        "description": "使用 KMLens 打开 KML 地理文件",
+        "iconName": "appicon",
+        "role": "Viewer"
+      },
+      {
+        "ext": "gpx",
+        "name": "GPX 轨迹文件",
+        "description": "使用 KMLens 打开 GPX 轨迹文件",
+        "iconName": "appicon",
+        "role": "Viewer"
+      }
+    ]
+  }
+}
