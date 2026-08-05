@@ -14,6 +14,12 @@ $nsisRoot = Get-ChildItem -Path (Join-Path $env:LOCALAPPDATA "electron-builder\C
   -Recurse -Filter makensis.exe -ErrorAction SilentlyContinue |
   Where-Object { $_.Directory.Name -ne "Bin" } |
   Select-Object -First 1 -ExpandProperty DirectoryName
+if (-not $nsisRoot) {
+  $standardNsisRoot = Join-Path ${env:ProgramFiles(x86)} "NSIS"
+  if (Test-Path -LiteralPath (Join-Path $standardNsisRoot "makensis.exe")) {
+    $nsisRoot = $standardNsisRoot
+  }
+}
 if ($nsisRoot) {
   $env:PATH = "$nsisRoot;$(Join-Path $nsisRoot 'Bin');$env:PATH"
 }
